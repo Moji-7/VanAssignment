@@ -26,7 +26,7 @@ public class TransferController : ControllerBase
         _moneyTransferService = moneyTransferService;
     }
 
-    [SwaggerOperation(Summary = "submit new transfer request")]
+    [SwaggerOperation(Summary = "********************* submit new transfer request **********************")]
     [HttpPost]
     [Route("TransferRequest")]
     public async Task<IActionResult> TransferRequest([FromBody] TransferDto transferDto)
