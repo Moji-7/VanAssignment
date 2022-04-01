@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferApi", "TransferApi\TransferApi.csproj", "{9BDA592D-7956-4C84-9D50-849199AB8824}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferApi.Tests", "TransferApi.Tests\TransferApi.Tests.csproj", "{AE6AAC7B-7D96-4679-91D4-73F14C24739B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferApi.Tests", "TransferApi.Tests\TransferApi.Tests.csproj", "{119866B6-7E6A-485C-8A88-EC150AD44970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,9 @@ Global
 		{AE6AAC7B-7D96-4679-91D4-73F14C24739B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE6AAC7B-7D96-4679-91D4-73F14C24739B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE6AAC7B-7D96-4679-91D4-73F14C24739B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{119866B6-7E6A-485C-8A88-EC150AD44970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{119866B6-7E6A-485C-8A88-EC150AD44970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{119866B6-7E6A-485C-8A88-EC150AD44970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{119866B6-7E6A-485C-8A88-EC150AD44970}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

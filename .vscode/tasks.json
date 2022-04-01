@@ -19,6 +19,15 @@
                 "reveal": "silent"
             },
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "transfer tests",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/TransferApi.Tests/TransferApi.Tests.csproj"
+            ]
         }
     ]
 }
