@@ -54,7 +54,7 @@ public class TransferTest
             Amount = 3000.00m,
             Description = "loan transfer",
             IsSigned = false,
-            Cart = card
+            CardNumber = card.CardNumber
         };
 
         List<TransferTransaction> transactions = new List<TransferTransaction>{

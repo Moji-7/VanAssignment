@@ -48,7 +48,7 @@ namespace TransferApi.Services
             var query =
            (from transactions in _context.TransferTransactions
             
-            where transactionSearchDto.CardNumber == null || transactions.Transfer.Cart.CartInfo.CardNumber == transactionSearchDto.CardNumber
+            where transactionSearchDto.CardNumber == null || transactions.Transfer.CardNumber == transactionSearchDto.CardNumber
      
             select transactions
             )
@@ -68,7 +68,7 @@ namespace TransferApi.Services
         {
             var query =
            (from transfers in _context.Transfers
-            where transfers.Cart.CartInfo.CardNumber == transferSearchDto.CardNumber
+            where transfers.CardNumber == transferSearchDto.CardNumber
              && transfers.IsSigned != true
             select transfers).OrderByDescending(x => x.CreationDate)
             .ProjectTo<TransferDto>(_mapper.ConfigurationProvider).ToListAsync();
@@ -110,8 +110,6 @@ namespace TransferApi.Services
                     TransferID = transfer.ID,
                     Transfer = transfer
                 };
-
-
 
                 await _context.TransferTransactions.AddAsync(transferTransaction);
                 return transferTransaction;

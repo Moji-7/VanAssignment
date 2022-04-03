@@ -10,3 +10,4 @@ namespace TransferApi.Infrastructure.ExceptionHandling
         public object? Value { get; }
     }
 }
+

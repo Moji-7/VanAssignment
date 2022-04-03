@@ -28,9 +28,11 @@ namespace TransferApi.Mapper
         [RegularExpression(@"^[a-zA-Z\s]*$")]
         public string Description { get; set; } = string.Empty;
 
-        public Cart Cart { get; set; }
+       
+        public string CardNumber { get; set; }
+        //public Cart Cart { get; set; }
         public Boolean IsSigned { get; set; }
-        public  DateTime? SignedDate { get; set; }
-          public ICollection<TransferTransaction>? Transaction { get; set; }
+        public DateTime? SignedDate { get; set; }
+        //  public ICollection<TransferTransaction>? Transaction { get; set; }
     }
 }

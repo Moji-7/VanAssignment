@@ -36,6 +36,7 @@ namespace TransferApi
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+            
             // Auto Mapper Configurations
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -45,22 +46,23 @@ namespace TransferApi
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+            
+
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+        // public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        // {
+        //     if (env.IsDevelopment())
+        //     {
+        //         app.UseDeveloperExceptionPage();
+        //     }
 
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+        //     app.UseEndpoints(endpoints =>
+        //     {
+        //         endpoints.MapControllers();
+        //     });
+        // }
     }
 }

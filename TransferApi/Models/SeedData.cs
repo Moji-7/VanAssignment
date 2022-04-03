@@ -46,7 +46,7 @@ namespace TransferApi.Models
                     Amount = 3000.00m,
                     Description = "loan transfer",
                     IsSigned = false,
-                    Cart = card
+                    CardNumber = card.CardNumber
                 };
                 context.Transfers.Add(
                     transfer

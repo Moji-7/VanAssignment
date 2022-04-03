@@ -9,7 +9,7 @@ namespace TransferApi.Models
     {
         [Key]
         public string CardNumber { get; set; }
-        [RegularExpression(@"^(0?[1-9]|1[0-2])/(2[0-9])$")]
+      
         // [CardInfoMask]
         public CartInfo CartInfo { get; set; }
 

@@ -36,8 +36,10 @@ namespace TransferApi.Models
         public DateTime ScheduleDate { get; set; }
         public Boolean IsSigned { get; set; }
         public DateTime? SignedDate { get; set; }
-        //public int CartID { get; set; }
-        public Cart Cart { get; set; }
+
+      
+        public string CardNumber { get; set; }
+
 
         public int TransactionID { get; set; }
         public ICollection<TransferTransaction>? Transaction { get; set; }

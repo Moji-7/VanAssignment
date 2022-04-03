@@ -17,7 +17,14 @@ public class TransferController : ControllerBase
     private readonly ILogger<TransferController> _logger;
     private readonly IMapper _mapper;
     private readonly IMoneyTransferService _moneyTransferService;
-
+    public string userName
+    {
+        get
+        {
+            Request.Headers.TryGetValue("user", out var user);
+            return user;
+        }
+    }
 
     public TransferController(ILogger<TransferController> logger, IMapper mapper, IMoneyTransferService moneyTransferService)
     {
@@ -33,51 +40,21 @@ public class TransferController : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest();
-        Transfer transfer = new Transfer();
-        try
-        {
-            transfer = validateTransfer(transferDto);
-            try
-            {
-                await SubmitTransfer(transfer);
-                return CreatedAtAction(nameof(GetTransferDetails), new { id = transfer.ID }, transfer);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest();
-            }
-
-        }
-        catch (InvalidTransferDescriptionException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return BadRequest();
-        }
-        return BadRequest();
+        Transfer transfer = ValidateTransfer(transferDto);
+        await SubmitTransfer(transfer);
+        transferDto.ID = transfer.ID;
+        return CreatedAtAction(nameof(TransferRequestDetails), new { uid = transferDto.ID }, transferDto);
     }
 
     [NonAction]
     private async Task<TransferDto> SubmitTransfer(Transfer transfer)
     {
-        try
-        {
-            TransferDto transferDto = await _moneyTransferService.CreateTransfer(transfer);
 
-            if (transferDto is null)
-            {
-                _logger.LogError($"transfer with id: {transfer.ID}, cant save in db");
-                throw new InvalidTransferDescriptionException(transfer.ID);
-            }
-            else
-            {
-                _logger.LogInformation($"saved new transfer in db with id: {transfer.ID}");
-                return transferDto;
-            }
-        }
-        catch (System.Exception)
-        {
-            throw;
-        }
+        TransferDto transferDto = await _moneyTransferService.CreateTransfer(transfer);
+        // _logger.LogError($"transfer with id: {transfer.ID}, cant save in db");
+        // throw new InvalidTransferDescriptionException(transfer.ID);
+        _logger.LogInformation($"saved new transfer in db with id: {transfer.ID}");
+        return transferDto;
     }
 
 
@@ -86,7 +63,6 @@ public class TransferController : ControllerBase
     [Route("SignTransferRequest/{uid}")]
     public async Task<IActionResult> SignTransfer(Guid uid)//[FromQuery] Guid? uid,
     {
-
         try
         {
             var transferDto = await _moneyTransferService.GetTransferDetails(uid);
@@ -137,11 +113,16 @@ public class TransferController : ControllerBase
     }
 
     [NonAction]
-    private Transfer validateTransfer(TransferDto transferDto)
+    private Transfer ValidateTransfer(TransferDto transferDto)
     {
         if (string.IsNullOrEmpty(transferDto.Description))
             throw new InvalidTransferDescriptionException("transfer must have description ");
 
+        #region call integration services     
+        //TODO: Account check with integration services
+        #endregion
+
+        transferDto.CreationDate = DateTime.Now;
         return _mapper.Map<Transfer>(transferDto);
     }
 
@@ -149,31 +130,20 @@ public class TransferController : ControllerBase
     [SwaggerOperation(Summary = "get  one Transfer Request with All its History Transactions")]
     [HttpGet()]
     [Route("TransferRequestDetails/{uid}")]
-    public async Task<IActionResult> GetTransferDetails(Guid uid)
+    public async Task<IActionResult> TransferRequestDetails(Guid uid)
     {
-        try
+        var transferDto = await _moneyTransferService.GetTransferDetails(uid);
+        if (transferDto is null)
         {
-            var transferDto = await _moneyTransferService.GetTransferDetails(uid);
-            if (transferDto is null)
-            {
-                _logger.LogError($"transfer with id: {uid}, hasn't been found in db.");
-                return NotFound();
-            }
-            else
-            {
-                _logger.LogInformation($"Returned owner with id: {uid}");
-                return Ok(transferDto);
-            }
+            _logger.LogError($"transfer with id: {uid}, hasn't been found in db.");
+            return NotFound();
         }
-        catch (Exception ex)
+        else
         {
-            _logger.LogError($"Something went wrong inside transferDto action: {ex.Message}");
-            return StatusCode(500, "Internal server error");
+            _logger.LogInformation($"Returned owner with id: {uid}");
+            return Ok(transferDto);
         }
     }
-
-
-
 
 }
 

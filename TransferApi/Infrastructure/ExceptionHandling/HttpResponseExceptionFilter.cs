@@ -13,6 +13,8 @@ namespace TransferApi.Infrastructure.ExceptionHandling
     {
         if (context.Exception is HttpResponseException httpResponseException)
         {
+
+            
             context.Result = new ObjectResult(httpResponseException.Value)
             {
                 StatusCode = httpResponseException.StatusCode

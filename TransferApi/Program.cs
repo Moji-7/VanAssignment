@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TransferApi;
 using TransferApi.Infrastructure.ExceptionHandling;
+using TransferApi.Infrastructure.VanExceptionHandling;
 using TransferApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +42,11 @@ app.UseSwaggerUI();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.Use(async (context, next) =>
+    {
+        context.Request.Headers.Add("user", "Robert");
+        await next();
+    });
     app.UseDeveloperExceptionPage();
 }
 else
@@ -54,8 +60,8 @@ using (var scope = app.Services.CreateScope())
     SeedData.Initialize(services);
 
 }
-app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
+   //app.ConfigureExceptionHandler();
+   app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 

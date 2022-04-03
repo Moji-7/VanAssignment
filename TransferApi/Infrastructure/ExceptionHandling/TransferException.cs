@@ -14,6 +14,7 @@ namespace TransferApi.Infrastructure.ExceptionHandling
         {
 
         }
+       
         public InvalidTransferDescriptionException(Guid transferId) : base(String.Format("cant not save transfer to database : {0}", transferId.ToString()))
         {
 
